@@ -10,16 +10,18 @@
     "package:dev": "npm run build && tfx extension create --manifest-globs vss-extension.json --overrides-file configs/dev.json --output-path out",
     "publish": "npm run build && tfx extension publish --manifest-globs vss-extension.json --overrides-file configs/release.json --output-path out",
     "publish:dev": "npm run build && tfx extension publish --manifest-globs vss-extension.json --overrides-file configs/dev.json --output-path out",
-    "gallery-publish": "tfx extension publish --rev-version"
+    "gallery-publish": "tfx extension publish --rev-version",
+    "test": "npm exec jest --"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.3",
     "@types/node": "^10.12.18",
     "@types/q": "1.5.0",
     "copyfiles": "2.4.1",
+    "rimraf": "^3.0.2",
     "tfx-cli": "^0.9.3",
     "tslint": "^6.1.3",
-    "typescript": "4.4.4",
-    "rimraf": "^3.0.2"
+    "typescript": "4.4.4"
   },
   "name": "vstsexttask",
   "private": true,
