@@ -165,8 +165,14 @@ function getSettings(): Settings {
     return settings;
 }
 
+
+
+
 async function getWorkItemsRefs(vstsWebApi: WebApi, workItemTrackingClient: IWorkItemTrackingApi, settings: Settings): Promise<ResourceRef[]> {
-    if (settings.workitemsSource === 'Build') {
+
+    const result: ResourceRef[] = [];
+
+    if (settings.workitemsSource === 'Build' || settings.workitemsSource === 'Both') {
         if (settings.releaseId && settings.allWorkItemsSinceLastRelease) {
             console.log('Using Release as WorkItem Source');
             const releaseClient: IReleaseApi = await vstsWebApi.getReleaseApi();
@@ -175,7 +181,6 @@ async function getWorkItemsRefs(vstsWebApi: WebApi, workItemTrackingClient: IWor
                 const baseReleaseId = deployments[0].release.id;
                 tl.debug('Using Release ' + baseReleaseId + ' as BaseRelease for ' + settings.releaseId);
                 const releaseWorkItemRefs = await releaseClient.getReleaseWorkItemsRefs(settings.projectId, settings.releaseId, baseReleaseId);
-                const result: ResourceRef[] = [];
                 releaseWorkItemRefs.forEach((releaseWorkItem) => {
                     result.push({
                         id: releaseWorkItem.id.toString(),
@@ -191,9 +196,10 @@ async function getWorkItemsRefs(vstsWebApi: WebApi, workItemTrackingClient: IWor
         const workItemRefs: ResourceRef[] = await buildClient.getBuildWorkItemsRefs(settings.projectId, settings.buildId, settings.workitemLimit);
         return workItemRefs;
     }
-    else if (settings.workitemsSource === 'Query') {
+
+    if (settings.workitemsSource === 'Query' || settings.workitemsSource === 'Both') {
         console.log('Using Query as WorkItem Source');
-        const result: ResourceRef[] = [];
+
         const query: QueryHierarchyItem = await workItemTrackingClient.getQuery(settings.projectId, settings.workitemsSourceQuery);
         if (query) {
             tl.debug('Found queryId ' + query.id + ' from QueryName ' + settings.workitemsSourceQuery);
@@ -215,10 +221,10 @@ async function getWorkItemsRefs(vstsWebApi: WebApi, workItemTrackingClient: IWor
         else {
             tl.warning('Could not find query ' + settings.workitemsSourceQuery);
         }
-        return result;
-    }
 
-    return undefined;
+
+    }
+    return result;
 }
 
 async function updateWorkItem(workItemTrackingClient: IWorkItemTrackingApi, workItem: WorkItem, settings: Settings): Promise<boolean> {

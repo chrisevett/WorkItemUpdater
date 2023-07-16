@@ -12,8 +12,8 @@
     ],
     "version": {
         "Major": "2",
-        "Minor": "5",
-        "Patch": "807"
+        "Minor": "10",
+        "Patch": "999"
     },
     "demands": [],
     "minimumAgentVersion": "1.91.0",
@@ -29,7 +29,8 @@
             "helpMarkDown": "The source of the workitems to update.",
             "options": {
                 "Build": "WorkItems linked to the Build/Release",
-                "Query": "Query"
+                "Query": "Query",
+                "Both": "Both query and linked work items"
             }
         },
         {
@@ -38,7 +39,7 @@
             "label": "Query",
             "defaultValue": "",
             "required": true,
-            "visibleRule": "workitemsSource == Query",
+            "visibleRule": "workitemsSource == Build || workitemsSource == Both",
             "helpMarkDown": "The query to use as the workitem source."
         },
         {

@@ -1,11 +1,14 @@
 {
     "compilerOptions": {
+        "lib": ["es2020"],
         "noImplicitAny": true,
-        "target": "es6",
+        "target": "es2020",
         "alwaysStrict": true,
         "module": "commonjs"
     },
     "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/node_modules",
+    
   ]
 }

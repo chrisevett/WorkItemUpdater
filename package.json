@@ -5,6 +5,7 @@
     "copyToDist": "copyfiles -f ./src/task.json ./dist && copyfiles -f ./src/package*.json ./dist",
     "compile": "npm run copyToDist && tsc --project . --outDir dist && (cd dist && npm ci --production)",
     "lint": "tslint -p tsconfig.json -c tslint.json",
+    "lint-autofix": "tslint -p tsconfig.json -c tslint.json --fix",
     "build": "npm run clean && npm run lint && npm run compile",
     "package": "npm run build && tfx extension create --manifest-globs vss-extension.json --overrides-file configs/release.json --output-path out",
     "package:dev": "npm run build && tfx extension create --manifest-globs vss-extension.json --overrides-file configs/dev.json --output-path out",
@@ -15,7 +16,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
-    "@types/node": "^10.12.18",
+    "@types/node": "^18.16.19",
     "@types/q": "1.5.0",
     "copyfiles": "2.4.1",
     "rimraf": "^3.0.2",
